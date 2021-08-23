@@ -29,7 +29,7 @@ Python packages (most of which can be installed using pip) needed to run LYRUS i
 - pyrosetta: https://www.pyrosetta.org/downloads/legacy-pyrosetta3-download
 
 ## Required external packages
-LYRUS also depends on the following external packages:<br/>
+LYRUS also depends on the following external packages:<br/><br/>
 Install **command line** version for:
 1. Clustal Omega: http://www.clustal.org/omega/
 2. PAUP: http://phylosolutions.com/paup-test/
