@@ -5,19 +5,19 @@ LYRUS is built on top of several existing Python libraries as well as other Soft
 
 ## Required python packages
 Python packages (most of which can be installed using pip) needed to run LYRUS include:
-  *requests
-  *skbio
-  pandas
-  numpy
-  scipy
-  xgboost
-  sklearn
-  Bio: https://biopython.org/wiki/Download
-  BeautifulSoup: https://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-beautiful-soup
-  evcouplings: http://prody.csb.pitt.edu/downloads/
-  prody: http://prody.csb.pitt.edu/downloads/
-  rhapsody: http://rhapsody.csb.pitt.edu/download.php
-  pyrosetta: https://www.pyrosetta.org/downloads/legacy-pyrosetta3-download
+- requests
+- skbio
+- pandas
+- numpy
+- scipy
+- xgboost
+- sklearn
+- Bio: https://biopython.org/wiki/Download
+- BeautifulSoup: https://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-beautiful-soup
+- evcouplings: http://prody.csb.pitt.edu/downloads/
+- prody: http://prody.csb.pitt.edu/downloads/
+- rhapsody: http://rhapsody.csb.pitt.edu/download.php
+- pyrosetta: https://www.pyrosetta.org/downloads/legacy-pyrosetta3-download
 
 The instruction to install **pyrosetta** can be found at https://www.pyrosetta.org/downloads/legacy-pyrosetta3-download
 
