@@ -1,7 +1,25 @@
 # LYRUS
 Python program for pathogenicity prediction of human missense variants.
 
-This script is tested using Python3.7.6
+LYRUS is built on top of several existing Python libraries as well as other Software, and is tested using Python3.7.6
+
+## Required python packages
+Python packages (most of which can be installed using pip) needed to run LYRUS include:
+  requests
+  skbio
+  pandas
+  numpy
+  scipy
+  xgboost
+  sklearn
+  Bio: https://biopython.org/wiki/Download
+  BeautifulSoup: https://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-beautiful-soup
+  evcouplings: http://prody.csb.pitt.edu/downloads/
+  prody: http://prody.csb.pitt.edu/downloads/
+  rhapsody: http://rhapsody.csb.pitt.edu/download.php
+  pyrosetta: https://www.pyrosetta.org/downloads/legacy-pyrosetta3-download
+
+The instruction to install **pyrosetta** can be found at https://www.pyrosetta.org/downloads/legacy-pyrosetta3-download
 
 ## Running Instructions
 Clone this repository and run the following command within the downloaded directory
@@ -9,11 +27,11 @@ Clone this repository and run the following command within the downloaded direct
 $ python inputFile outputDir fathmmFile
 ```
 
-The inputFile should contain 2 column:
+The **inputFile** should contain 2 column:
   1. UniProt ID
   2. Single amino acid variant: [aa_ref][aa_pos][aa_var]
 
-Example input is:  
+Example **inputFile** contains:  
 ```
 Q9NQZ7 V363G
 P11245 E203D
@@ -24,49 +42,7 @@ Q92887 T486I
 ............
 ```
 
-The outputDir should be a full path to the desired directory to store the outputs
+The **outputDir** should be a **full path** to the desired directory to store the outputs
 
-The fathmmFile(full path) should contain the output from FATHMM. To get the FATHMM output,
-go to http://fathmm.biocompute.org.uk/inherited.html and run using the same InputFile.
-
-It might be necessary to manually install the DSSP program, for instance
-by typing on Linux:
-```console
-$ sudo apt install dssp
-```
-
-## Install from source
-Rhapsody is written in pure Python so no local compilation is needed.
-
-To install all needed dependencies, we strongly suggest to use Conda and create
-a new environment with:
-```console
-$ conda create -n rhapsody python=3 numpy scikit-learn requests pyparsing matplotlib biopython tqdm
-$ conda activate rhapsody
-$ pip install prody
-$ conda install -c salilab dssp
-```
-
-After cloning/forking the Rhapsody repository, you can permanently add the
-repository path to the conda environment with:
-```console
-$ conda develop path/to/local/repository
-```
-
-If not using Conda, you can manually install all dependencies and then add
-the repository location to the `PYTHONPATH` environmental variable. For
-example, on Linux simply add the following line to your `~/.bashrc`:
-```console
-export PYTHONPATH="path/to/local/repository/:$PYTHONPATH"
-```
-
-If you are running on Windows, please follow this
-[tutorial](https://stackoverflow.com/a/4855685).
-
-## Running initial setup
-
-After installation, please run:
-```console
-import rhapsody as rd
-rd.initialSetup()
-```
+The **fathmmFile**(full path) should contain the output from FATHMM. To get the FATHMM output,
+go to http://fathmm.biocompute.org.uk/inherited.html and run using the **InputFile**.
