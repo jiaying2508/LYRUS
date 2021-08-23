@@ -1,5 +1,5 @@
-# LYRUS
-Python program for pathogenicity prediction of human missense variants.
+# LYRUS: A Machine Learning Model for Predicting the Pathogenicity of Missense Variants
+LYRUS incorporates five sequence-based, six structure-based, and four dynamics-based features. Uniquely, LYRUS includes a newly-proposed sequence co-evolution feature called variation number. LYRUS was trained using a dataset that contains 4,363 protein structures corresponding to 22,639 SAVs from the ClinVar database.
 
 LYRUS is built on top of several existing Python libraries as well as other Software, and is tested using Python3.7.4
 ## Files included in LYRUS
