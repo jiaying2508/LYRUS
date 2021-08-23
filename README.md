@@ -3,7 +3,7 @@ Python program for pathogenicity prediction of human missense variants.
 
 LYRUS is built on top of several existing Python libraries as well as other Software, and is tested using Python3.7.6
 ## Files included in LYRUS
-- lyrus.py\n
+- lyrus.py<br/>
   This is the script to run LYRUS
 - train.csv
   Training file for the XGBoost Classifier
