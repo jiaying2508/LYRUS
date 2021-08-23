@@ -1,11 +1,11 @@
 # LYRUS
 Python program for pathogenicity prediction of human missense variants.
 
-LYRUS is built on top of several existing Python libraries as well as other Software, and is tested using Python3.7.6
+LYRUS is built on top of several existing Python libraries as well as other Software, and is tested using Python3.7.4
 ## Files included in LYRUS
 - lyrus.py<br/>
   This is the script to run LYRUS
-- train.csv
+- train.csv<br/>
   Training file for the XGBoost Classifier
 - gene.txt (optional)
 - refseqs.txt (optional)
@@ -29,7 +29,7 @@ Python packages (most of which can be installed using pip) needed to run LYRUS i
 - pyrosetta: https://www.pyrosetta.org/downloads/legacy-pyrosetta3-download
 
 ## Required external packages
-LYRUS also depends on the following external packages:
+LYRUS also depends on the following external packages:<br/>
 Install **command line** version for:
 1. Clustal Omega: http://www.clustal.org/omega/
 2. PAUP: http://phylosolutions.com/paup-test/
@@ -42,7 +42,7 @@ Install the following files and put it in the **LYRUS** directory:
 5. P2Rank: https://github.com/rdk/p2rank
 
 ## Running Instructions
-Clone this repository and run the following command within the downloaded directory
+Clone this repository and run the following command within the downloaded directory, with python version 3.7.4 or higher
 ```console
 $ python inputFile outputDir fathmmFile
 ```
@@ -51,7 +51,7 @@ The **inputFile** should contain 2 column:
   1. UniProt ID
   2. Single amino acid variant: [aa_ref][aa_pos][aa_var]
 
-Example **inputFile** contains:  
+Example **inputFile**:  
 ```
 Q9NQZ7 V363G
 P11245 E203D
@@ -64,5 +64,5 @@ Q92887 T486I
 
 The **outputDir** should be a **full path** to the desired directory to store the outputs
 
-The **fathmmFile**(full path) should contain the output from FATHMM. To get the FATHMM output,
+The **fathmmFile** should contain the output from FATHMM. To get the FATHMM output,
 go to http://fathmm.biocompute.org.uk/inherited.html and run using the **InputFile**.
