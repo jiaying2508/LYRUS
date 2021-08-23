@@ -5,8 +5,8 @@ LYRUS is built on top of several existing Python libraries as well as other Soft
 
 ## Required python packages
 Python packages (most of which can be installed using pip) needed to run LYRUS include:
-  requests
-  skbio
+  *requests
+  *skbio
   pandas
   numpy
   scipy
