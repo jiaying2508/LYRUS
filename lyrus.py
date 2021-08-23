@@ -207,7 +207,6 @@ def getSingleChain(uniprot, pdbDir, savDict, logFile):
         print('\n##############uniprot {} error, SAV {} not match#############\n'.format(uniprot, savDict[uniprot][0]))
         lFile.close()
 
-    print(uniprot, chain)
     oldfile = open('{}/{}_clean.pdb'.format(pdbDir, uniprot),'r')
     newfile = open('{}/{}_clean_single.pdb'.format(pdbDir, uniprot),'w')
     for line in oldfile:
