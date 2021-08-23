@@ -180,7 +180,7 @@ def getPDB(uniprot, pdbDir):
 get pdb matched single chain
 '''
 def getSingleChain(uniprot, pdbDir, savDict, logFile):
-    AA={'C':'CYS','D':'ASP','S':'SER','Q':'GLN','K':'LYS','I':'ILE','P':'PRO','T':'THR','F':'PHE','N':'ASN','G':'GLY','H':'HIS','L':'LEU','R':'ARG','W':'TRP','A':'ALA','V':'VAL','E':'GLU','Y':'TYR','M':'MET'}
+    AA = {'C':'CYS','D':'ASP','S':'SER','Q':'GLN','K':'LYS','I':'ILE','P':'PRO','T':'THR','F':'PHE','N':'ASN','G':'GLY','H':'HIS','L':'LEU','R':'ARG','W':'TRP','A':'ALA','V':'VAL','E':'GLU','Y':'TYR','M':'MET'}
     wt = AA[savDict[uniprot][0][0].upper()]
     res = savDict[uniprot][0][1:-1]
     oldfile=open('{}/{}_clean.pdb'.format(pdbDir, uniprot),'r')
