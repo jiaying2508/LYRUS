@@ -352,7 +352,7 @@ def generateVN(tree, seqDict, seqLength):
                 queue.append(c)
     return variation_number
 
-def processVN(index, inputDir, outputDir, file, dataDir):
+def processVN(index, inputDir, outputDir, file):
     if os.path.isfile('{}/vn_{}.txt'.format(outputDir, file)) and os.path.isfile('{}/evmutation_{}_result.txt'.format(outputDir, file)):
         return (index, -1)
 
@@ -1089,14 +1089,12 @@ def main():
         refseqList.append(file)
     
     Entrez.email = ''
-
-    dataDir = '{}/data'.format(currDir)
     refseqFile = open('{}/refseqs.txt'.format(outputDir), 'a')
     for uniprot in uniprotList:
         try:
             if geneDict[uniprot] in refseqDict.keys():
                 continue
-            homoProtein = getFasta(geneDict[uniprot], savDict[uniprot][0], refseqList, refseqDir, dataDir)
+            homoProtein = getFasta(geneDict[uniprot], savDict[uniprot][0], refseqList, refseqDir)
             if len(homoProtein) == 0:
                 file = open(logFile, 'a')
                 file.write('refseq for {} not found: {}\n'.format(geneDict[uniprot], savDict[uniprot][0]))
@@ -1131,7 +1129,7 @@ def main():
 
     pool = mp.Pool(cpu_count)
     for i, ref in enumerate(sorted(refseqList)):
-        pool.apply_async(processVN, args=(i, refseqDir, vnDir, ref, dataDir), callback=collect_result)
+        pool.apply_async(processVN, args=(i, refseqDir, vnDir, ref), callback=collect_result)
     pool.close()
     pool.join()
     
@@ -1139,7 +1137,7 @@ def main():
     results_final = [r for i, r in results]
     pool = mp.Pool(cpu_count)
     for ref, homoIndex in zip(sorted(refseqList), results_final):
-        pool.apply_async(processEVMutation, args=(vnDir, ref, homoIndex, dataDir))
+        pool.apply_async(processEVMutation, args=(vnDir, ref, homoIndex))
     pool.close()
     pool.join()
 
