@@ -22,12 +22,16 @@ required python packages:
     requests
     Bio
     skbio
+    pandas
+    BeautifulSoup
     numpy
     scipy
     prody
     pyrosetta
     evcouplings
     rhapsody
+    xgboost
+    sklearn
 
 required external packages:
     plmc-master
@@ -35,17 +39,17 @@ required external packages:
     freesasa
     maestro
     p2rank
+    clustal omega
+    paup
 
 skipped process if file exist:
     ev_ and vn_ in data
-    download new orthologs files
-    make new multiple sequence alignment
-    plmc-master
+    orthologs files
 
 required files:
     refseqs.txt
     gene.txt
-    22639_SAV_NOMissingFeature.csv
+    train.csv
     data from https://drive.google.com/drive/folders/1bFMi78D4LqjGMDZiP_X6OzBBcsttSoSy?usp=sharing
     
 '''
@@ -408,11 +412,9 @@ def processVN(index, inputDir, outputDir, file, dataDir):
         ################################################################################
         #                      run cluster omega on the fasta file
         ################################################################################
-        if os.path.isfile('{}/{}_aligned.fasta'.format(outputDir, accession_full)):
-            pass
-        else:
-            os.system('clustalo -i {}/{}.fasta -o {}/{}_aligned.fasta \
-                --auto -v --force >/dev/null'.format(outputDir, accession_full, outputDir, accession_full))
+        os.system('clustalo -i {}/{}.fasta -o {}/{}_aligned.fasta \
+            --auto -v --force >/dev/null'.format(outputDir, accession_full, outputDir, accession_full))
+            
         #'''
         ################################################################################
         #  read the aligned fasta file, and clean the identifier
@@ -554,7 +556,7 @@ def processEVMutation(workingDir, file, homoIndexList):
         print('# performaing EVMutation Analysis for {}'.format(proteinAccession))
 
         if evmutationfile in existingFiles:
-            pass
+            os.system('plmc-master/bin/plmc -o {}/{}.params -le {} -lh 0.01 -m 100 {}/evmutation_{}.txt &>/dev/null'.format(workingDir, proteinAccession, ll, workingDir, proteinAccession))
         else:
             os.system('plmc-master/bin/plmc -o {}/{}.params -le {} -lh 0.01 -m 100 {}/evmutation_{}.txt &>/dev/null'.format(workingDir, proteinAccession, ll, workingDir, proteinAccession))
             # pass
@@ -870,7 +872,7 @@ def runP2rank(uniprot, p2rankDir, pdbDir):
 
 def trainModel():
     data, target = [], []
-    f = open('22639_SAV_NOMissingFeature.csv', 'r')
+    f = open('train.csv', 'r')
     f.readline()
     for line in f:
         line = line.strip().split(',')
@@ -924,6 +926,11 @@ def main():
     outputDir = sys.argv[2]
     try:
         os.mkdir(outputDir)
+    except:
+        pass
+
+    try:
+        os.mkdir('{}/data'.format(currDir))
     except:
         pass
     
@@ -981,12 +988,15 @@ def main():
     '''
     add additional gene information
     '''
-    file = open('gene.txt')
-    for line in file:
-        line = line.rstrip()
-        line = line.split(',')
-        geneDict[line[1]] = line[0]
-    file.close()
+    try:
+        file = open('gene.txt')
+        for line in file:
+            line = line.rstrip()
+            line = line.split(',')
+            geneDict[line[1]] = line[0]
+        file.close()
+    except:
+        pass
 
     ################################################################################
     '''
@@ -1053,12 +1063,15 @@ def main():
     refseqDict = {} #key: gene; val: acc
     refseqList = []
 
-    refseqFile = open('refseqs.txt')
-    for line in refseqFile:
-        line = line.rstrip()
-        l = line.split()
-        refseqDict[l[0]] = l[1]
-    refseqFile.close()
+    try:
+        refseqFile = open('refseqs.txt')
+        for line in refseqFile:
+            line = line.rstrip()
+            l = line.split()
+            refseqDict[l[0]] = l[1]
+        refseqFile.close()
+    except:
+        pass
 
     try:
         refseqFile = open('{}/refseqs.txt'.format(outputDir))
