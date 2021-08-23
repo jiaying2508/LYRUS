@@ -3,12 +3,12 @@ LYRUS incorporates five sequence-based, six structure-based, and four dynamics-b
 
 LYRUS is built on top of several existing Python libraries as well as other Software, and is tested using Python3.7.4
 ## Files included in LYRUS
-- lyrus.py<br/>
+- **lyrus.py**<br/>
   This is the script to run LYRUS
-- train.csv<br/>
+- **train.csv**<br/>
   Training file for the XGBoost Classifier
-- gene.txt (optional)
-- refseqs.txt (optional)
+- **gene.txt** (optional)
+- **refseqs.txt** (optional)
 
 ## Other data files
 The **data** folder that includes pre-computed variation number and EVMutation score (using the same orthologs as the variation number; differs from the ones provided by the Marks Lab https://marks.hms.harvard.edu/evmutation/downloads.html) can be downloaded at https://drive.google.com/drive/folders/1bFMi78D4LqjGMDZiP_X6OzBBcsttSoSy?usp=sharing. If you decided to use the pre-computed scores, please put the **data** folder in the **LYRUS** directory.
