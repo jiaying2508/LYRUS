@@ -153,7 +153,7 @@ def getGeneName(uniprotList, outputDir):
     with urllib.request.urlopen(req) as f:
         response = f.read()
 
-    output = open('{}/gene.txt'.format(outputDir), 'w')
+    output = open('{}/gene1.txt'.format(outputDir), 'w')
     output.write(response.decode('utf-8'))
     output.close()
 
@@ -971,7 +971,7 @@ if __name__ == '__main__':
     ################################################################################
     getGeneName(uniprotList, outputDir)
     geneDict1 = {} #key: uniprot; val: geneName
-    file = open('{}/gene.txt'.format(outputDir))
+    file = open('{}/gene1.txt'.format(outputDir))
     file.readline()
     for line in file:
         line = line.rstrip()
@@ -1038,7 +1038,7 @@ if __name__ == '__main__':
     write foldX input files
     '''
     ################################################################################
-    foldXDir = '{}/foldX'.format(outputDir)
+    foldXDir = '{}/foldXDir'.format(outputDir)
     try:
         os.mkdir(foldXDir)
     except:
@@ -1079,7 +1079,7 @@ if __name__ == '__main__':
         pass
 
     try:
-        refseqFile = open('{}/refseqs.txt'.format(outputDir))
+        refseqFile = open('{}/refseqs1.txt'.format(outputDir))
         for line in refseqFile:
             line = line.rstrip()
             l = line.split()
@@ -1094,7 +1094,7 @@ if __name__ == '__main__':
         refseqList.append(file)
     
     Entrez.email = ''
-    refseqFile = open('{}/refseqs.txt'.format(outputDir), 'a')
+    refseqFile = open('{}/refseqs1.txt'.format(outputDir), 'a')
     for uniprot in uniprotList:
         try:
             if geneDict[uniprot] in refseqDict.keys():
