@@ -65,7 +65,7 @@ Q92887 T486I
 The **outputDir** should be a **full path** to the desired directory to store the outputs
 
 The **fathmmFile** should contain the output from FATHMM. To get the FATHMM output,
-go to http://fathmm.biocompute.org.uk/inherited.html and run using the **InputFile**.
+go to http://fathmm.biocompute.org.uk/inherited.html and run using the **inputFile**.
 
 ## Output Files:
 - **LYRUS_input.csv** contains the calculated feature values, which include **nan**
