@@ -44,7 +44,7 @@ Install the following files and put it in the **LYRUS** directory:
 ## Running Instructions
 Clone this repository and run the following command within the downloaded directory, with python version 3.7.4 or higher. Optional data folder can be downloaded from https://drive.google.com/drive/folders/1bFMi78D4LqjGMDZiP_X6OzBBcsttSoSy?usp=sharing.
 ```console
-$ python inputFile outputDir fathmmFile
+$ python -i <inputFile> -o <outputDir> -f <fathmmFile>
 ```
 
 The **inputFile** should contain 2 column:

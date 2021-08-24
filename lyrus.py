@@ -1,20 +1,20 @@
 #run XGBoost Classifier to predict SAV disease pathogenicity
 '''
-python lyrus.py inputFile outputDir fathmmFile
+python lyrus.py -i <inputFile> -o <outputDir; need to be full path> -f <fathmmFile>
 
 python version:
     python3.7.6
 
 args:
-    [1] inputFile:
+    -i inputFile:
         uniprot followed by single amino acid variant, seperate by space
         example:
             Q9NQZ7 V363G
 
-    [2] outputDir:
+    -o outputDir:
         full path of the desired output directory
 
-    [3] fathmmFile:
+    -f fathmmFile:
         use the same inputFile to get fathmm output and provide the fathmm output file name here; use full path 
         FATHMM can be run at http://fathmm.biocompute.org.uk/inherited.html
 
@@ -78,7 +78,7 @@ import math
 
 import json
 from bs4 import BeautifulSoup
-
+import argparse
 import urllib.parse
 import urllib.request
 import multiprocessing as mp
@@ -683,7 +683,7 @@ def runFoldX(uniprot, workingDir, pdbDir, currDir):
         print('# Using FoldX to generate {}'.format(repairPDBfile))
         os.system('./foldx --command=RepairPDB --pdb={}_clean_single.pdb --output-dir={} &>/dev/null'.format(uniprot,workingDir))
         os.remove('{}/{}_clean_single.pdb'.format(currDir, uniprot))
-        # pass
+        pass
     else:
         print('# running foldX for {}'.format(uniprot))
         copyfile(pdbfile, '{}/{}_clean_single.pdb'.format(currDir, uniprot))
@@ -905,13 +905,19 @@ def runLYRUS(file):
     pred_proba = exported_pipeline.predict_proba(data)
     return pred, pred_proba
 
-results = []
-maestro = 'MAESTRO_OSX_x64'
-p2rank = 'p2rank_2.2'
 
-def main():
+
+parser = argparse.ArgumentParser(description='LYRUS: A Machine Learning Model for Predicting the Pathogenicity of Missense Variants')
+parser.add_argument('-i', '--inputFile', type=str, metavar='', required=True, help='input file')
+parser.add_argument('-o', '--outputDir', type=str, metavar='', required=True, help='output directory; full path')
+parser.add_argument('-f', '--fathmm', type=str, metavar='', required=True, help='fathmm file')
+
+args = parser.parse_args()
+
+if __name__ == '__main__':
     currDir = os.getcwd()
-
+    global results
+    results = []
     global maestro
     global p2rank
     dirs = os.listdir(currDir)
@@ -921,8 +927,8 @@ def main():
         elif 'maestro_' in dir.lower():
             maestro = dir
 
-    inputFile = sys.argv[1]
-    outputDir = sys.argv[2]
+    inputFile = args.inputFile
+    outputDir = args.outputDir
     try:
         os.mkdir(outputDir)
     except:
@@ -1246,7 +1252,7 @@ def main():
     process fathmm score
     '''
     ################################################################################
-    fathmm_file = sys.argv[3]
+    fathmm_file = args.fathmm
     file = open(fathmm_file)
     for line in file:
         line = line.rstrip()
@@ -1538,6 +1544,3 @@ def main():
         outputFile.write('{},{},{},{},{},{},{}\n'.format(uniprot, gene, acc, sav, p, proba[1], line))
     file.close()
     outputFile.close()
-
-main()
-
