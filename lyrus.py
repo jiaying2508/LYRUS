@@ -7,7 +7,7 @@ python version:
 
 args:
     -i inputFile:
-        uniprot followed by single amino acid variant, seperate by space
+        uniprot followed by single amino acid variant, separate by space
         example:
             Q9NQZ7 V363G
 
@@ -119,7 +119,7 @@ def runImpute(file, outputDir, inputFile):
 	f.close()
 	matrix = [[float(i) if i!='nan' else np.nan for i in row]for row in matrix]
     
-	imp = IterativeImputer(max_iter=10, random_state=0, n_nearest_features=1)
+	imp = IterativeImputer(max_iter=100, random_state=0, n_nearest_features=15)
 	matrix=imp.fit_transform(matrix)
 	np.savetxt('{}/{}_LYRUS_imputed.csv'.format(outputDir, inputFile.split('.')[0]),matrix,delimiter=',')
 
@@ -699,7 +699,7 @@ def runFoldX(uniprot, workingDir, pdbDir, currDir):
         pass
 
     copyfile('{}/{}'.format(workingDir, repairPDBfile), '{}/{}'.format(currDir, repairPDBfile))
-    os.system('./foldx --command=BuildModel --pdb={} --mutant-file={}/individual_list_{}.txt --output-dir={} --numberOfRuns=3 --out-pdb=false &>/dev/null'.format(repairPDBfile,workingDir,uniprot, workingDir))
+    os.system('./foldx --command=BuildModel --pdb={} --mutant-file={}/individual_list_{}.txt --output-dir={} --numberOfRuns=5 --out-pdb=false &>/dev/null'.format(repairPDBfile,workingDir,uniprot, workingDir))
     os.remove('{}/{}'.format(currDir, repairPDBfile))
 
 def runMaestro(sav, maestroDir, chainDict, pdbDir):
@@ -904,8 +904,6 @@ def runLYRUS(file):
     pred = exported_pipeline.predict(data)
     pred_proba = exported_pipeline.predict_proba(data)
     return pred, pred_proba
-
-
 
 parser = argparse.ArgumentParser(description='LYRUS: A Machine Learning Model for Predicting the Pathogenicity of Missense Variants')
 parser.add_argument('-i', '--inputFile', type=str, metavar='', required=True, help='input file')
@@ -1296,13 +1294,13 @@ if __name__ == '__main__':
             count = 0
             for line in file:
                 line = line.rstrip()
-                if count == 3:
+                if count == 5:
                     break
                 if '{}_clean_single_Repair_{}_'.format(uniprot, index) in line:
                     l = line.split()
                     total += float(l[1])
                     count += 1
-            total = total / 3
+            total = total / count
             file.close()
 
             savAllDict[key].append(total)
