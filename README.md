@@ -48,7 +48,7 @@ except:
     print('Output directory already exist')
 
 #load model
-lyrusModel = lyrusClass(gene, uniprot, outputDir, savFile=None)
+lyrusModel = lyrusClass(gene, uniprot, outputDir, savFile='{}/{}/input.txt'.format(outputDir,gene))
 
 #download orthologs from NCBI
 lyrusModel.getFasta()
