@@ -35,37 +35,33 @@ Install the following files and put it in the **LYRUS** directory:
 Clone this repository and run the following command within the downloaded directory, with python version 3.7.4 or higher.
 
 ```console
-import os
-from LYRUS.lyrusClass import lyrusClass, lyrusPredict
-
-gene = 'A1BG'
-uniprot = 'P04217'
-currDir = os.getcwd()
-outputDir = '{}/test'.format(currDir)
-try:
-    os.mkdir(outputDir)
-except:
-    print('Output directory already exist')
-
-#load model
-lyrusModel = lyrusClass(gene, uniprot, outputDir, savFile=None)
-
-#download orthologs from NCBI
-lyrusModel.getFasta()
-
-#download PDB from SWISS-MODEL
-lyrusModel.getPDB()
-
-#calculate all the parameters except for fathmm
-lyrusModel.getParameters(maestroDir='MAESTRO_OSX_x64',p2rankDir='p2rank_2.2')
+$ python -i <inputFile> -o <outputDir> -f <fathmmFile>
 ```
+
+The **inputFile** should contain 2 column:
+  1. UniProt ID
+  2. Single amino acid variant: [aa_ref][aa_pos][aa_var]
+
+Example **inputFile**:  
+```
+Q9NQZ7 V363G
+P11245 E203D
+Q6XZF7 R1101Q
+B1AL17 A139V
+Q9NTN9-2 R423H
+Q92887 T486I
+............
+```
+
+The **outputDir** should be a **full path** to the desired directory to store the outputs
 
 The **fathmmFile** should contain the output from FATHMM. To get the FATHMM output,
-go to http://fathmm.biocompute.org.uk/inherited.html and run using the **fathmmInput.txt** available in the output directory.
+go to http://fathmm.biocompute.org.uk/inherited.html and run using the **inputFile**.
 
-```console
-fathmmFile = 'test/fathmm.txt'
+## Other data files
+The **data** folder that includes pre-computed variation number and EVMutation score (using the same orthologs as the variation number; differs from the ones provided by the Marks Lab https://marks.hms.harvard.edu/evmutation/downloads.html) can be downloaded at https://drive.google.com/drive/folders/1bFMi78D4LqjGMDZiP_X6OzBBcsttSoSy?usp=sharing. If you decided to use the pre-computed scores, please put the **data** folder in the **LYRUS** directory.
 
-#calculate lyrus probability
-lyrusPredict(gene, fathmmFile, outputDir, uniprot)
-```
+## Output Files:
+- **LYRUS_input.csv** contains the calculated feature values, which include **nan**
+- **LYRUS_imputed.csv** contains the imputed feature values
+- **LYRUS_prediction.csv** contains prediction results
