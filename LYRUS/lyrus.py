@@ -668,7 +668,6 @@ def runFreeSASA(freeSASADir, pdbDir, uniprot):
     pdbfile = '{}/{}_clean_single.pdb'.format(pdbDir, uniprot)
     os.system('freesasa --format=seq --shrake-rupley -n 200 --probe-radius 1.2 --n-threads 4 {} > {}'.format(pdbfile, freeSASAfile))
 
-
 def runFoldX(uniprot, workingDir, pdbDir, currDir):
     pdbfile = '{}/{}_clean_single.pdb'.format(pdbDir, uniprot)
     existingFiles = os.listdir(workingDir)
