@@ -1,9 +1,10 @@
+genes.txt
 setup.py
 MANIFEST.in
 LICENSE
 LYRUS/__init__.py
 main.py
-test.py
+test.txt
 LYRUS/__pycache__
 yasaraPlugin.zip
 foldx
