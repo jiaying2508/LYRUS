@@ -41,7 +41,7 @@ from LYRUS.lyrusClass import lyrusClass, lyrusPredict
 gene = 'A1BG'
 uniprot = 'P04217'
 currDir = os.getcwd()
-outputDir = '{}/test1'.format(currDir)
+outputDir = '{}/test'.format(currDir)
 try:
     os.mkdir(outputDir)
 except:
@@ -64,7 +64,7 @@ The **fathmmFile** should contain the output from FATHMM. To get the FATHMM outp
 go to http://fathmm.biocompute.org.uk/inherited.html and run using the **fathmmInput.txt** available in the output directory.
 
 ```console
-fathmmFile = 'test1/fathmm.txt'
+fathmmFile = 'test/fathmm.txt'
 
 #calculate lyrus probability
 lyrusPredict(gene, fathmmFile, outputDir, uniprot)
