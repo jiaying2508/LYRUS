@@ -639,36 +639,36 @@ class lyrusClass():
         """generate input parameters for LYRUS"""
         self._setSAV()
 
-        # #variation_number
-        # vn.processVN(self.gene, self.outputDir, self.acc, 'protein')
+        #variation_number
+        vn.processVN(self.gene, self.outputDir, self.acc, 'protein')
         
-        # #p2rank
-        # self._runP2rank(p2rankDir)
+        #p2rank
+        self._runP2rank(p2rankDir)
 
-        # #pyrosetta
-        # self._runPyrosetta()
+        #pyrosetta
+        self._runPyrosetta()
 
-        # #prody
-        # self._runPrody()
+        #prody
+        self._runPrody()
 
-        # #maestro
-        # self._runMaestro(maestroDir)
+        #maestro
+        self._runMaestro(maestroDir)
 
-        # #freesasa
-        # self._runFreesasa()
+        #freesasa
+        self._runFreesasa()
 
-        # #foldx
-        # self._foldXInput()
-        # self._runFoldX()
+        #foldx
+        self._foldXInput()
+        self._runFoldX()
 
-        # #evmutation
-        # homoIndexList = self._EVMutationInput()
-        # self._processEVMutation(homoIndexList, param=EVparam)
+        #evmutation
+        homoIndexList = self._EVMutationInput()
+        self._processEVMutation(homoIndexList, param=EVparam)
 
         #ployphen2
         self._runPolyphen2()
         self._finalParam()
-        # self._cleanDir()
+        self._cleanDir()
 
 def _trainModel():
     # print(os.path.realpath(__file__))
