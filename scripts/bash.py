@@ -21,8 +21,10 @@ with open(sys.argv[2]) as f:
         if 'finalParam.csv' in files:
             continue
         else:
+            file = open('{}/lyrus2.txt'.format(dir), 'w')
+            file.close()
             print(gene)
-            if count == 120:
+            if count == 80:
                 count = 0
                 time.sleep(43200)
             count += 1

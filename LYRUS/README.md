@@ -35,7 +35,7 @@ Install the following files and put it in the **LYRUS** directory:
 Clone this repository and run the following command within the downloaded directory, with python version 3.7.4 or higher.
 
 ```console
-$ python -i <inputFile> -o <outputDir> -f <fathmmFile>
+$ python lyrus.py -i <inputFile> -o <outputDir> -f <fathmmFile>
 ```
 
 The **inputFile** should contain 2 column:

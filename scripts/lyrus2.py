@@ -11,5 +11,5 @@ lyrusModel = lyrusClass(gene, uniprot, outputDir)
 lyrusModel.setAccession(acc)
 lyrusModel.getPDB()
 #get fathmm input file
-lyrusModel.getParameters(maestroDir='MAESTRO_OSX_x64',p2rankDir='p2rank_2.2', EVparam=50)
+lyrusModel.getParameters(maestroDir='MAESTRO_linux_x64',p2rankDir='p2rank_2.2', EVparam=50)
 

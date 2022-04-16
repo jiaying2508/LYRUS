@@ -285,7 +285,7 @@ class lyrusClass():
         
         copyfile('{}/{}'.format(self.outputDir, repairPDBfile), '{}/{}'.format(currDir, repairPDBfile))
         # print('./foldx --command=BuildModel --pdb={} --mutant-file={}/individual_list.txt --output-dir={} --numberOfRuns=5 --out-pdb=false &>/dev/null'.format(repairPDBfile,self.outputDir,self.outputDir))
-        os.system('./foldx --command=BuildModel --pdb={} --mutant-file={}/individual_list.txt --output-dir={} --numberOfRuns=5 --out-pdb=false &>/dev/null'.format(repairPDBfile,self.outputDir,self.outputDir))
+        os.system('./foldx --command=BuildModel --pdb={} --mutant-file={}/individual_list.txt --output-dir={} --numberOfRuns=3 --out-pdb=false &>/dev/null'.format(repairPDBfile,self.outputDir,self.outputDir))
         os.remove('{}/{}'.format(currDir, repairPDBfile))
     
     def _runFreesasa(self):
@@ -536,17 +536,19 @@ class lyrusClass():
             index = 0
             count = 0
             total = 0
+            countT = 3
             for line in f:
                 if line.startswith(self.uniprot):
-                    if count == 5:
+                    if count == countT:
                         count = 0
-                        total = total / 5
+                        total = total / countT
                         foldxDict[foldxIndexDict[index]] = str(total)
                         total = 0
                         index += 1
                     line = line.rstrip().split()
                     total += float(line[1])
                     count += 1
+            total = total / countT
             foldxDict[foldxIndexDict[index]] = str(total)
         freesasaDict = {} #key:1
         with open('{}/freesasa.txt'.format(self.outputDir)) as f:
@@ -641,6 +643,13 @@ class lyrusClass():
 
         #variation_number
         vn.processVN(self.gene, self.outputDir, self.acc, 'protein')
+
+        #evmutation
+        homoIndexList = self._EVMutationInput()
+        self._processEVMutation(homoIndexList, param=EVparam)
+
+        #ployphen2
+        self._runPolyphen2()
         
         #p2rank
         self._runP2rank(p2rankDir)
@@ -661,12 +670,6 @@ class lyrusClass():
         self._foldXInput()
         self._runFoldX()
 
-        #evmutation
-        homoIndexList = self._EVMutationInput()
-        self._processEVMutation(homoIndexList, param=EVparam)
-
-        #ployphen2
-        self._runPolyphen2()
         self._finalParam()
         self._cleanDir()
 
