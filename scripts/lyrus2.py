@@ -1,6 +1,6 @@
 import os
 import sys
-from lyrusClass import lyrusClass
+from scripts.lyrusClass import lyrusClass
 import time
 
 gene = sys.argv[1]
