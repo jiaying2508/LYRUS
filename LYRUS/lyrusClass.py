@@ -109,7 +109,7 @@ class lyrusClass():
                     'ILE': 'I', 'PRO': 'P', 'THR': 'T', 'PHE': 'F', 'ASN': 'N',
                     'GLY': 'G', 'HIS': 'H', 'LEU': 'L', 'ARG': 'R', 'TRP': 'W',
                     'ALA': 'A', 'VAL': 'V', 'GLU': 'E', 'TYR': 'Y', 'MET': 'M'}
-
+        self._savDict()
         seqDict = self._readFasta('{}/{}'.format(self.outputDir, self.gene))
         homoSeq = seqDict[self.acc]
         self.homoSeq = homoSeq
@@ -124,7 +124,7 @@ class lyrusClass():
 
         for i in self.savDict:
             # j = str(i+1)
-            for aa in aaList:
+            for aa in self.mutDict[self.savDict[i]]:
                 if aa != self.savDict[i]:
                     mutationList.append('{}{}{}'.format(
                         self.savDict[i], str(i), aa))
@@ -133,7 +133,67 @@ class lyrusClass():
             file.write('{}\n'.format(mutation))
         file.close()
         self.savList = mutationList
-        
+    
+    def _mutateSNV(self, val):
+        l = []
+        val = [x for x in val]
+        for char in ['A', 'T', 'C', 'G']:
+            if val[0] != char:
+                k = char + val[1] + val[2]
+                l.append(k)
+        for char in ['A', 'T', 'C', 'G']:
+            if val[1] != char:
+                k = val[0] + char + val[2]
+                l.append(k)
+        for char in ['A', 'T', 'C', 'G']:
+            if val[2] != char:
+                k = val[0] + val[1] + char
+                l.append(k)
+        return  l
+
+    def _savDict(self):
+        table = {
+            'ATA':'I', 'ATC':'I', 'ATT':'I', 'ATG':'M',
+            'ACA':'T', 'ACC':'T', 'ACG':'T', 'ACT':'T',
+            'AAC':'N', 'AAT':'N', 'AAA':'K', 'AAG':'K',
+            'AGC':'S', 'AGT':'S', 'AGA':'R', 'AGG':'R',                
+            'CTA':'L', 'CTC':'L', 'CTG':'L', 'CTT':'L',
+            'CCA':'P', 'CCC':'P', 'CCG':'P', 'CCT':'P',
+            'CAC':'H', 'CAT':'H', 'CAA':'Q', 'CAG':'Q',
+            'CGA':'R', 'CGC':'R', 'CGG':'R', 'CGT':'R',
+            'GTA':'V', 'GTC':'V', 'GTG':'V', 'GTT':'V',
+            'GCA':'A', 'GCC':'A', 'GCG':'A', 'GCT':'A',
+            'GAC':'D', 'GAT':'D', 'GAA':'E', 'GAG':'E',
+            'GGA':'G', 'GGC':'G', 'GGG':'G', 'GGT':'G',
+            'TCA':'S', 'TCC':'S', 'TCG':'S', 'TCT':'S',
+            'TTC':'F', 'TTT':'F', 'TTA':'L', 'TTG':'L',
+            'TAC':'Y', 'TAT':'Y', 'TAA':'_', 'TAG':'_',
+            'TGC':'C', 'TGT':'C', 'TGA':'_', 'TGG':'W',
+        }
+        savDict = {}
+        for key in table:
+            val = table[key]
+            if val in savDict:
+                savDict[val].append(key)
+            else:
+                savDict[val] = [key]
+        # print(savDict)
+
+        self.mutDict = {}
+        for key in savDict:
+            # print(key)
+            l = []
+            if key == '_':
+                continue
+            for val in savDict[key]:
+                items = self._mutateSNV(val)
+                for item in items:
+                    if table[item] == '_':
+                        continue
+                    l.append(table[item])
+            # print(list(set(l)))
+            self.mutDict[key] = list(set(l))
+
     def _setSAV(self):
         """set custom set of SAVs  and fathmm/polyphen2 input file
         if not provided, use the input.txt file generated using generateAAV
@@ -640,7 +700,8 @@ class lyrusClass():
     def getParameters(self, maestroDir='MAESTRO_OSX_x64',p2rankDir='p2rank_2.2', EVparam=100):
         """generate input parameters for LYRUS"""
         self._setSAV()
-
+        if len(self.savList) == 0:
+            raise TypeError('input sav list empty')
         #variation_number
         vn.processVN(self.gene, self.outputDir, self.acc, 'protein')
 
