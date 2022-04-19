@@ -161,7 +161,7 @@ class lyrusClass():
                         continue
                     l.append(table[item])
             # print(list(set(l)))
-            self.mutDict[key] = list(set(l))
+            self.mutDict[key] = list(set(l)).copy()
 
     def _generateAAV(self):
         """generate amino acid variation file

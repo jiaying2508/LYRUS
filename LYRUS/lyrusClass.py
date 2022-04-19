@@ -192,7 +192,7 @@ class lyrusClass():
                         continue
                     l.append(table[item])
             # print(list(set(l)))
-            self.mutDict[key] = list(set(l))
+            self.mutDict[key] = list(set(l)).copy()
 
     def _setSAV(self):
         """set custom set of SAVs  and fathmm/polyphen2 input file
