@@ -1,3 +1,4 @@
+from distutils.log import error
 from numpy import outer
 import variation_number as vn
 import os
@@ -102,38 +103,6 @@ class lyrusClass():
 
         return dict
 
-    def _generateAAV(self):
-        """generate amino acid variation file
-        """
-        codon3to1 = {'CYS': 'C', 'ASP': 'D', 'SER': 'S', 'GLN': 'Q', 'LYS': 'K',
-                    'ILE': 'I', 'PRO': 'P', 'THR': 'T', 'PHE': 'F', 'ASN': 'N',
-                    'GLY': 'G', 'HIS': 'H', 'LEU': 'L', 'ARG': 'R', 'TRP': 'W',
-                    'ALA': 'A', 'VAL': 'V', 'GLU': 'E', 'TYR': 'Y', 'MET': 'M'}
-        self._savDict()
-        seqDict = self._readFasta('{}/{}'.format(self.outputDir, self.gene))
-        homoSeq = seqDict[self.acc]
-        self.homoSeq = homoSeq
-        aaList = codon3to1.values()
-        mutationList = []
-
-        for pos in self.savDict:
-            wt = self.savDict[pos]
-            if homoSeq[pos-1] != wt:
-                raise ValueError(
-                    'refSeq sequence not match PDB sequence, please provide an alternative uniprot ID or accession number when using getFasta method')
-
-        for i in self.savDict:
-            # j = str(i+1)
-            for aa in self.mutDict[self.savDict[i]]:
-                if aa != self.savDict[i]:
-                    mutationList.append('{}{}{}'.format(
-                        self.savDict[i], str(i), aa))
-        file = open('{}/input.txt'.format(self.outputDir), 'w')
-        for mutation in mutationList:
-            file.write('{}\n'.format(mutation))
-        file.close()
-        self.savList = mutationList
-    
     def _mutateSNV(self, val):
         l = []
         val = [x for x in val]
@@ -194,6 +163,38 @@ class lyrusClass():
             # print(list(set(l)))
             self.mutDict[key] = list(set(l))
 
+    def _generateAAV(self):
+        """generate amino acid variation file
+        """
+        codon3to1 = {'CYS': 'C', 'ASP': 'D', 'SER': 'S', 'GLN': 'Q', 'LYS': 'K',
+                    'ILE': 'I', 'PRO': 'P', 'THR': 'T', 'PHE': 'F', 'ASN': 'N',
+                    'GLY': 'G', 'HIS': 'H', 'LEU': 'L', 'ARG': 'R', 'TRP': 'W',
+                    'ALA': 'A', 'VAL': 'V', 'GLU': 'E', 'TYR': 'Y', 'MET': 'M'}
+        self._savDict()
+        seqDict = self._readFasta('{}/{}'.format(self.outputDir, self.gene))
+        homoSeq = seqDict[self.acc]
+        self.homoSeq = homoSeq
+        # aaList = codon3to1.values()
+        mutationList = []
+
+        for pos in self.savDict:
+            wt = self.savDict[pos]
+            if homoSeq[pos-1] != wt:
+                raise ValueError(
+                    'refSeq sequence not match PDB sequence, please provide an alternative uniprot ID or accession number when using getFasta method')
+
+        for i in self.savDict:
+            # j = str(i+1)
+            for aa in self.mutDict[self.savDict[i]]:
+                if aa != self.savDict[i]:
+                    mutationList.append('{}{}{}'.format(
+                        self.savDict[i], str(i), aa))
+        file = open('{}/input.txt'.format(self.outputDir), 'w')
+        for mutation in mutationList:
+            file.write('{}\n'.format(mutation))
+        file.close()
+        self.savList = mutationList
+        
     def _setSAV(self):
         """set custom set of SAVs  and fathmm/polyphen2 input file
         if not provided, use the input.txt file generated using generateAAV
@@ -536,21 +537,33 @@ class lyrusClass():
         # os.remove('{}/taxid.txt'.format(self.outputDir))
         os.remove('{}/{}.pdb'.format(self.outputDir, self.uniprot))
         # os.remove('{}/{}_aligned.fasta'.format(self.outputDir, self.acc))
-        os.remove('{}/{}_getTree.cmd'.format(self.outputDir, self.acc))
-        os.remove('{}/{}_tree.tree'.format(self.outputDir, self.acc))
-        os.remove('{}/{}_trees.nex'.format(self.outputDir, self.acc))
-        os.remove('{}/{}.fasta'.format(self.outputDir, self.acc))
-        os.remove('{}/{}.nex'.format(self.outputDir, self.acc))
-        os.remove('{}/EVMutationInput.txt'.format(self.outputDir))
-        os.remove('{}/Average_{}_clean_single_Repair.fxout'.format(self.outputDir, self.uniprot))
-        os.remove('{}/PdbList_{}_clean_single_Repair.fxout'.format(self.outputDir, self.uniprot))
-        os.remove('{}/Raw_{}_clean_single_Repair.fxout'.format(self.outputDir, self.uniprot))
-        os.remove('{}/{}_clean_single_Repair.fxout'.format(self.outputDir, self.uniprot))
-        os.remove('{}/pph2-short.txt'.format(self.outputDir))
-        os.remove('{}/pph2-log.txt'.format(self.outputDir))
-        os.remove('{}/pph2-snps.txt'.format(self.outputDir))
-        os.remove('{}/pph2-started.txt'.format(self.outputDir))
-        os.remove('{}/rhapsody-SAVs.txt'.format(self.outputDir))
+        try:
+            os.remove('{}/{}_getTree.cmd'.format(self.outputDir, self.acc))
+            os.remove('{}/{}_tree.tree'.format(self.outputDir, self.acc))
+            os.remove('{}/{}_trees.nex'.format(self.outputDir, self.acc))
+        except:
+            pass
+        try:
+            os.remove('{}/{}.fasta'.format(self.outputDir, self.acc))
+        except:
+            pass
+        try:
+            os.remove('{}/{}.nex'.format(self.outputDir, self.acc))
+            os.remove('{}/EVMutationInput.txt'.format(self.outputDir))
+        except:
+            pass
+        try:
+            os.remove('{}/Average_{}_clean_single_Repair.fxout'.format(self.outputDir, self.uniprot))
+            os.remove('{}/PdbList_{}_clean_single_Repair.fxout'.format(self.outputDir, self.uniprot))
+            os.remove('{}/Raw_{}_clean_single_Repair.fxout'.format(self.outputDir, self.uniprot))
+            os.remove('{}/{}_clean_single_Repair.fxout'.format(self.outputDir, self.uniprot))
+        except:
+            pass
+        # os.remove('{}/pph2-short.txt'.format(self.outputDir))
+        # os.remove('{}/pph2-log.txt'.format(self.outputDir))
+        # os.remove('{}/pph2-snps.txt'.format(self.outputDir))
+        # os.remove('{}/pph2-started.txt'.format(self.outputDir))
+        # os.remove('{}/rhapsody-SAVs.txt'.format(self.outputDir))
 
     def _finalParam(self):
         vnDict = {} #key:M1
@@ -563,16 +576,16 @@ class lyrusClass():
                 # print(key)
                 vnDict[key] = line[2]
                 # exit()
-        p2Dict = {} #key: M1A
-        p21Dict = {}
-        with open('{}/pph2-full.txt'.format(self.outputDir)) as f:
-            for line in f:
-                if line.startswith(self.uniprot):
-                    line = line.rstrip().split('\t')
-                    l = [x.strip() for x in line]
-                    k = l[2] + l[1] + l[3]
-                    p2Dict[k] = l[22]
-                    p21Dict[k] = l[23]
+        # p2Dict = {} #key: M1A
+        # p21Dict = {}
+        # with open('{}/pph2-full.txt'.format(self.outputDir)) as f:
+        #     for line in f:
+        #         if line.startswith(self.uniprot):
+        #             line = line.rstrip().split('\t')
+        #             l = [x.strip() for x in line]
+        #             k = l[2] + l[1] + l[3]
+        #             p2Dict[k] = l[22]
+        #             p21Dict[k] = l[23]
         evDict = {} #key:1A
         with open('{}/evmutation_result.txt'.format(self.outputDir)) as f:
             f.readline()
@@ -672,14 +685,14 @@ class lyrusClass():
                 p2rankDict[line[1].strip()] = val
 
         outputFile = open('{}/finalParam.csv'.format(self.outputDir), 'w')
-        outputFile.write('sav,vn,dScore,Score1,evmutation,foldx,freesasa,maestro,anm,ms,effectiveness,sensitivity,prMutant,prDiff,p2rank\n')
+        outputFile.write('sav,vn,evmutation,foldx,freesasa,maestro,anm,ms,effectiveness,sensitivity,prMutant,prDiff,p2rank\n')
 
         for sav in self.savList:
             try:
                 out = [sav]
                 out.append(vnDict[sav[:-1]])
-                out.append(p2Dict[sav])
-                out.append(p21Dict[sav])
+                # out.append(p2Dict[sav])
+                # out.append(p21Dict[sav])
                 out.append(evDict[sav[1:]])
                 out.append(foldxDict[sav])
                 out.append(freesasaDict[sav[1:-1]])
@@ -702,15 +715,26 @@ class lyrusClass():
         self._setSAV()
         if len(self.savList) == 0:
             raise TypeError('input sav list empty')
-        #variation_number
-        vn.processVN(self.gene, self.outputDir, self.acc, 'protein')
 
-        #evmutation
-        homoIndexList = self._EVMutationInput()
-        self._processEVMutation(homoIndexList, param=EVparam)
+        dataDir = '/users/jlai5/data/jlai5/LYRUS/data'
+        files = os.listdir(dataDir)
+        found = False
+        if 'evmutation_{}_result.txt'.format(self.acc) in files:
+            if 'vn_{}.txt'.format(self.acc) in files:
+                found = True
+                copyfile('{}/evmutation_{}_result.txt'.format(dataDir,self.acc), '{}/evmutation_result.txt'.format(self.outputDir))
+                copyfile('{}/vn_{}.txt'.format(dataDir, self.acc), '{}/vn_{}.txt'.format(self.outputDir, self.acc))
+
+        if not found:
+            #variation_number
+            vn.processVN(self.gene, self.outputDir, self.acc, 'protein')
+
+            #evmutation
+            homoIndexList = self._EVMutationInput()
+            self._processEVMutation(homoIndexList, param=EVparam)
 
         #ployphen2
-        self._runPolyphen2()
+        # self._runPolyphen2()
         
         #p2rank
         self._runP2rank(p2rankDir)

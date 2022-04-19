@@ -1,12 +1,10 @@
-lyrus2.py
-bash.py
+ABCG1
 test1
 genes.txt
 setup.py
 MANIFEST.in
 LICENSE
 LYRUS/__init__.py
-main.py
 test.txt
 LYRUS/__pycache__
 yasaraPlugin.zip
@@ -19,6 +17,5 @@ plmc-master
 data
 test
 output
-test.py
 humsavar.txt
 .DS_Store
