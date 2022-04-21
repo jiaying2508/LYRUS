@@ -1,6 +1,6 @@
 #run XGBoost Classifier to predict SAV disease pathogenicity
 '''
-python lyrus.py -i <inputFile> -o <outputDir; need to be full path> -f <fathmmFile>
+python lyrus.py -i <inputFile> -o <outputDir>; need to be full path> -f <fathmmFile>
 
 python version:
     python3.7.6

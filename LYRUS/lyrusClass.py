@@ -697,17 +697,35 @@ class lyrusClass():
                 pass
         outputFile.close()
 
-    def getParameters(self, maestroDir='MAESTRO_OSX_x64',p2rankDir='p2rank_2.2', EVparam=100):
-        """generate input parameters for LYRUS"""
+    def getParameters(self, maestroDir='MAESTRO_OSX_x64',p2rankDir='p2rank_2.2', EVparam=100, dataDir=None):
+        """generate input parameters for LYRUS
+        parameters
+        ----------
+        maestroDir: directory for maestro
+        p2rankDir: directory for p2rank
+        EVparam: plmc-master number of runs
+        dataDir: data directory that contains precomputed VN and EVMutation outputs; if provided then VN and EVMutation calculation will be skipped 
+        """
         self._setSAV()
         if len(self.savList) == 0:
             raise TypeError('input sav list empty')
-        #variation_number
-        vn.processVN(self.gene, self.outputDir, self.acc, 'protein')
 
-        #evmutation
-        homoIndexList = self._EVMutationInput()
-        self._processEVMutation(homoIndexList, param=EVparam)
+        found = False
+        if dataDir != None:
+            files = os.listdir(dataDir)
+            if 'evmutation_{}_result.txt'.format(self.acc) in files:
+                if 'vn_{}.txt'.format(self.acc) in files:
+                    found = True
+                    copyfile('{}/evmutation_{}_result.txt'.format(dataDir,self.acc), '{}/evmutation_result.txt'.format(self.outputDir))
+                    copyfile('{}/vn_{}.txt'.format(dataDir, self.acc), '{}/vn_{}.txt'.format(self.outputDir, self.acc))
+        
+        if not found:
+            #variation_number
+            vn.processVN(self.gene, self.outputDir, self.acc, 'protein')
+
+            #evmutation
+            homoIndexList = self._EVMutationInput()
+            self._processEVMutation(homoIndexList, param=EVparam)
 
         #ployphen2
         self._runPolyphen2()
