@@ -1,5 +1,5 @@
 # LYRUS: A Machine Learning Model for Predicting the Pathogenicity of Missense Variants
-LYRUS incorporates five sequence-based, six structure-based, and four dynamics-based features. Uniquely, LYRUS includes a newly-proposed sequence co-evolution feature called variation number. LYRUS was trained using a dataset that contains 4,363 protein structures corresponding to 22,639 SAVs from the ClinVar database.
+LYRUS incorporates five sequence-based, six structure-based, and four dynamics-based features. Uniquely, LYRUS includes a newly-proposed sequence co-evolution feature called variation number. LYRUS was trained using a dataset that contains 4,363 protein structures corresponding to 22,639 SAVs from the ClinVar database. The method is described in Jiaying Lai, Jordan Yang, Ece D Gamsiz Uzun, Brenda M Rubenstein, Indra Neil Sarkar, LYRUS: a machine learning model for predicting the pathogenicity of missense variants, Bioinformatics Advances, Volume 2, Issue 1, 2022, vbab045, https://doi.org/10.1093/bioadv/vbab045.
 
 LYRUS is built on top of several existing Python libraries as well as other Software, and is tested using Python3.7.4
 
